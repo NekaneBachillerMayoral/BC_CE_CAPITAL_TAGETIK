@@ -1,0 +1,201 @@
+{
+    "name": "BC",
+    "description": "Rules",
+    "generalAction": "Hidden",
+    "rules": [{
+            "id": "AA0214",
+            "action": "Hidden",
+            "justification": "Not possible to solve"
+        },
+        {
+            "id": "AA0218",
+            "action": "Hidden",
+            "justification": "Tooltip not necessary"
+        },
+        {
+            "id": "AA0210",
+            "action": "Hidden",
+            "justification": "Key Id"
+        },
+        {
+            "id": "AW0006",
+            "action": "Hidden",
+            "justification": "Some pages must be unsearchable"
+        },
+        {
+            "id": "AL0432",
+            "action": "Hidden",
+            "justification": "Id marked for removal"
+        },
+        {
+            "id": "AA0470",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0022",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AD0001",
+            "action": "Hidden",
+            "justification": "Exception app.json"
+        },
+        {
+            "id": "AA0072",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0008",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0073",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0005",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0139",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0137",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0074",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0205",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0225",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AW0005",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0206",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0228",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AL0424",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0217",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AW0011",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0232",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AL0685",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0150",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AL0468",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0021",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0204",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0198",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0231",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0194",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0102",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0001",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AL0603",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0202",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0181",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0175",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        },
+        {
+            "id": "AA0218",
+            "action": "Hidden",
+            "justification": "Not necessary"
+        }
+    ]
+}
