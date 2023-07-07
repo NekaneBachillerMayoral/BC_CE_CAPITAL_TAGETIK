@@ -2,32 +2,27 @@
   "id": "e6e7d522-6f57-4d71-8c7e-ab7b7f91cff9",
   "name": "Capital Tagetik",
   "publisher": "PKF Attest",
-  "version": "21.0.0.0",
-  "brief": "",
-  "description": "",
-  "privacyStatement": "",
-  "EULA": "",
+  "version": "22.0.0.0",
   "help": "https://get.teamviewer.com/PKF-ATTEST",
   "url": "http://www.pkf-attest.es/",
-  "logo": "src\\img\\Logo.png",
-  "dependencies": [],
-  "screenshots": [],
-  "platform": "1.0.0.0",
-  "application": "21.0.0.0",
+  "logo": "./img/Logo.png",  
+  "runtime": "11.0",
+  "target": "Cloud",
+  "application": "22.0.0.0",
+  "platform": "22.0.0.0",
+  "contextSensitiveHelpUrl": "https://CapitalTagetik.com/help/",
+  "applicationInsightsConnectionString": "InstrumentationKey=353ab8ed-acb8-4754-800c-dc673c8786a4;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/",
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": false,
+    "applyToDevExtension": false
+  },
+  "features": ["TranslationFile"],
   "idRanges": [
     {
       "from": 50000,
       "to": 60060
     }
-  ],
-  "contextSensitiveHelpUrl": "https://CapitalTagetik.com/help/",
-  "resourceExposurePolicy": {
-    "allowDebugging": true,
-    "allowDownloadingSource": false,
-    "includeSourceInSymbolFile": false
-  },
-  "runtime": "10.0",
-  "features": ["TranslationFile"],
-  "target": "Cloud",
-  "applicationInsightsConnectionString": "InstrumentationKey=353ab8ed-acb8-4754-800c-dc673c8786a4;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/"
+  ]
 }

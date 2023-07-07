@@ -1,10 +1,10 @@
-page 50113 "ATT Dim.ension Value - Tagetik"
+page 50105 "ATT Companies - Tagetik"
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
-    SourceTable = "Dimension Value";
-    Caption = 'Dimension values', comment = 'ESP="Valores dimensión"';
+    SourceTable = Company;
+    Caption = 'Companies', comment = 'ESP="Empresas"';
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;
@@ -16,15 +16,7 @@ page 50113 "ATT Dim.ension Value - Tagetik"
         {
             repeater(GroupName)
             {
-                field(Code; Rec.Code)
-                {
-                    ApplicationArea = All;
-                }
                 field(Name; Rec.Name)
-                {
-                    ApplicationArea = All;
-                }
-                field(Blocked; Rec.Blocked)
                 {
                     ApplicationArea = All;
                 }

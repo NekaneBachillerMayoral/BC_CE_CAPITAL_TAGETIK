@@ -5,7 +5,7 @@ page 50106 "ATT G/L Entries - Tagetik"
     UsageCategory = Lists;
     SourceTable = "G/L Entry";
     Caption = 'G/L Entries', comment = 'ESP="Mov. Contabilidad"';
-    Permissions = tabledata "G/L Entry" = r;
+    Permissions = tabledata "G/L Entry"=r;
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;

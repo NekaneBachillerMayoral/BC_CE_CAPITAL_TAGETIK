@@ -6,7 +6,7 @@ page 50042 "ATT Tagetik G/L Entry"
     SourceTable = "ATT Tagetik G/L Entry";
     UsageCategory = Lists;
     Editable = false;
-    Permissions = tabledata "G/L Entry" = r;
+    Permissions = tabledata "G/L Entry"=r;
 
     layout
     {
@@ -88,9 +88,6 @@ page 50042 "ATT Tagetik G/L Entry"
                     ApplicationArea = All;
                     Caption = 'Load data', comment = 'ESP="Cargar datos"';
                     Image = Process;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedOnly = true;
 
                     trigger OnAction()
                     var
@@ -100,10 +97,8 @@ page 50042 "ATT Tagetik G/L Entry"
                         LocalText001_Txt: Label 'Process ended.', comment = 'ESP="Proceso finalizado."';
                     begin
                         Window.Open(WindowText_Txt);
-
                         Rec.CheckTagetik();
                         Rec.LoadTagetikGLEntries(vLTagetikType::Manual);
-
                         Window.Close();
                         Message(LocalText001_Txt);
                     end;
@@ -113,9 +108,6 @@ page 50042 "ATT Tagetik G/L Entry"
                     ApplicationArea = All;
                     Caption = 'Clear data', comment = 'ESP="Limpiar datos"';
                     Image = Delete;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedOnly = true;
 
                     trigger OnAction()
                     var
@@ -123,7 +115,6 @@ page 50042 "ATT Tagetik G/L Entry"
                         LocalText001_Txt: Label 'Process ended.', comment = 'ESP="Proceso finalizado."';
                     begin
                         Rec.CheckTagetik();
-
                         rLTagetikGLEntry.Reset();
                         rLTagetikGLEntry.DeleteAll(true);
                         Message(LocalText001_Txt);
@@ -134,10 +125,22 @@ page 50042 "ATT Tagetik G/L Entry"
                     ApplicationArea = All;
                     Caption = 'Tagetik Log', comment = 'ESP="Log Tagetik"';
                     Image = Log;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedOnly = true;
                     RunObject = page "ATT Tagetik Log";
+                }
+            }
+        }
+        area(Promoted)
+        {
+            group(Category_Process)
+            {
+                actionref(LoadData_Promoted; LoadData)
+                {
+                }
+                actionref(ClearData_Promoted; ClearData)
+                {
+                }
+                actionref(TagetikLog_Promoted; TagetikLog)
+                {
                 }
             }
         }

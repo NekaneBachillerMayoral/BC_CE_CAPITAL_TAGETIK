@@ -3,6 +3,7 @@ table 60051 "ATT Tagetik Log"
     DataClassification = CustomerContent;
     Caption = 'Tagetik Log', comment = 'ESP="Log Tagetik"';
     DataPerCompany = false;
+
     fields
     {
         field(1; "ATT Entry No."; Integer)
@@ -21,7 +22,7 @@ table 60051 "ATT Tagetik Log"
             DataClassification = CustomerContent;
             Caption = 'Ending DateTime', comment = 'ESP="Fecha y hora de finalización"';
         }
-        field(4; "ATT Tagetik Type"; Enum "ATT Tagetik Type")
+        field(4; "ATT Tagetik Type";Enum "ATT Tagetik Type")
         {
             DataClassification = CustomerContent;
             Caption = 'Origin', comment = 'ESP="Origen"';
@@ -37,7 +38,6 @@ table 60051 "ATT Tagetik Log"
             Caption = 'In execution', comment = 'ESP="En ejecución"';
         }
     }
-
     keys
     {
         key(PK; "ATT Entry No.")
