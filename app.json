@@ -3,26 +3,38 @@
   "name": "Capital Tagetik",
   "publisher": "PKF Attest",
   "version": "22.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
   "help": "https://get.teamviewer.com/PKF-ATTEST",
   "url": "http://www.pkf-attest.es/",
-  "logo": "./img/Logo.png",  
-  "runtime": "11.0",
-  "target": "Cloud",
-  "application": "22.0.0.0",
+  "logo": "src\\img\\Logo.png",
+  "screenshots": [],
   "platform": "22.0.0.0",
-  "contextSensitiveHelpUrl": "https://CapitalTagetik.com/help/",
-  "applicationInsightsConnectionString": "InstrumentationKey=353ab8ed-acb8-4754-800c-dc673c8786a4;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/",
-  "resourceExposurePolicy": {
-    "allowDebugging": true,
-    "allowDownloadingSource": true,
-    "includeSourceInSymbolFile": false,
-    "applyToDevExtension": false
-  },
-  "features": ["TranslationFile"],
+  "application": "22.0.0.0",
+  "dependencies": [
+    {
+      "id": "aeb93af2-3520-4b0e-adc9-277f02757bf6",
+      "publisher": "Arbentia Consulting, S.L.",
+      "name": "Gestión de Token Multitenant - Capital Energy",
+      "version": "1.0.0.10"
+    }
+  ],
   "idRanges": [
     {
       "from": 50000,
       "to": 60060
     }
-  ]
+  ],
+  "contextSensitiveHelpUrl": "https://CapitalTagetik.com/help/",
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": false
+  },
+  "runtime": "11.0",
+  "features": ["TranslationFile","NoImplicitWith","NoPromotedActionProperties"],
+  "target": "Cloud",
+  "applicationInsightsConnectionString": "InstrumentationKey=353ab8ed-acb8-4754-800c-dc673c8786a4;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/"
 }
