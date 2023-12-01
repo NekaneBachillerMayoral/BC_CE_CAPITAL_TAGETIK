@@ -88,9 +88,6 @@ page 50042 "ATT Tagetik G/L Entry"
                     ApplicationArea = All;
                     Caption = 'Load data', comment = 'ESP="Cargar datos"';
                     Image = Process;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedOnly = true;
 
                     trigger OnAction()
                     var
@@ -113,9 +110,6 @@ page 50042 "ATT Tagetik G/L Entry"
                     ApplicationArea = All;
                     Caption = 'Clear data', comment = 'ESP="Limpiar datos"';
                     Image = Delete;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedOnly = true;
 
                     trigger OnAction()
                     var
@@ -134,10 +128,22 @@ page 50042 "ATT Tagetik G/L Entry"
                     ApplicationArea = All;
                     Caption = 'Tagetik Log', comment = 'ESP="Log Tagetik"';
                     Image = Log;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedOnly = true;
                     RunObject = page "ATT Tagetik Log";
+                }
+            }
+        }
+        area(Promoted)
+        {
+            group(Category_Process)
+            {
+                actionref(LoadData_Promoted; LoadData)
+                {
+                }
+                actionref(ClearData_Promoted; ClearData)
+                {
+                }
+                actionref(TagetikLog_Promoted; TagetikLog)
+                {
                 }
             }
         }
