@@ -2,6 +2,7 @@ table 60050 "ATT Tagetik G/L Entry"
 {
     Caption = 'Tagetik GL Entry', comment = 'ESP="Mov. Contabilidad Tagetik"';
     DataClassification = ToBeClassified;
+    Permissions = tabledata "G/L Entry" = rimd;
     DataPerCompany = false;
 
     fields
