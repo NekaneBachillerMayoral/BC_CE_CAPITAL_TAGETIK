@@ -220,7 +220,10 @@ table 60050 "ATT Tagetik G/L Entry"
                                 rLTagetikGLEntry."ATT G/L Account Name" := vLGLAccountName;
 
                             rLTagetikGLEntry."ATT Last GL Entry No." := rLGLEntry."Entry No.";
-                            rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
+                            if rLGLSetup."LCY Code" = '' then
+                                rLTagetikGLEntry."ATT LCY Code" := 'EUR'
+                            else
+                                rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
                             rLTagetikGLEntry."ATT Cost Center Name" := vLCostCenterName;
                             rLTagetikGLEntry."ATT IC Name" := vLICName;
 
@@ -248,7 +251,10 @@ table 60050 "ATT Tagetik G/L Entry"
                             rLTagetikGLEntry."ATT IC Name" := vLICName;
 
                             rLTagetikGLEntry."ATT Amount" := rLGLEntry.Amount;
-                            rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
+                            if rLGLSetup."LCY Code" = '' then
+                                rLTagetikGLEntry."ATT LCY Code" := 'EUR'
+                            else
+                                rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
                             rLTagetikGLEntry."ATT Last GL Entry No." := rLGLEntry."Entry No.";
                             rLTagetikGLEntry."ATT Account Type" := 'N';
 
@@ -336,7 +342,10 @@ table 60050 "ATT Tagetik G/L Entry"
                                                     rLTagetikGLEntry."ATT IC Code" := vLICCode;
                                                     rLTagetikGLEntry."ATT IC Name" := vLICName;
                                                     rLTagetikGLEntry."ATT Amount" := rLDecimalValue;
-                                                    rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
+                                                    if rLGLSetup."LCY Code" = '' then
+                                                        rLTagetikGLEntry."ATT LCY Code" := 'EUR'
+                                                    else
+                                                        rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
                                                     //NOTA: DEJAMOS EL ÚLTIMO Nº MOV. CONTABILIDADO, NO EL QUE ESTAMOS RECORRIENDO QUE ES ANTERIOR!!!!
                                                     rLTagetikGLEntry."ATT Last GL Entry No." := vLLastEntryNo;
                                                     rLTagetikGLEntry."ATT Account Type" := 'N';
