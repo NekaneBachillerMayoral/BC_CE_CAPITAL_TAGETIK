@@ -2,6 +2,7 @@ table 60050 "ATT Tagetik G/L Entry"
 {
     Caption = 'Tagetik GL Entry', comment = 'ESP="Mov. Contabilidad Tagetik"';
     DataClassification = ToBeClassified;
+    Permissions = tabledata "G/L Entry" = rimd;
     DataPerCompany = false;
 
     fields
@@ -119,6 +120,13 @@ table 60050 "ATT Tagetik G/L Entry"
         rLTagetikGLEntry: Record "ATT Tagetik G/L Entry";
         rLGLSetup: Record "General Ledger Setup";
         rLTagetikLog: Record "ATT Tagetik Log";
+        //+JGA Tagetik - Reclasificación movimientos CECO e IC
+        rLDimension: Record Dimension;
+        RecRef: RecordRef;
+        FldRef: FieldRef;
+        rLDecimalValue: Decimal;
+        rLDateValue: date;
+        //-JGA        
         vLLastEntryNo: Integer;
         vLCostCenterCode: Code[20];
         vLCostCenterName: Text[50];
@@ -212,7 +220,10 @@ table 60050 "ATT Tagetik G/L Entry"
                                 rLTagetikGLEntry."ATT G/L Account Name" := vLGLAccountName;
 
                             rLTagetikGLEntry."ATT Last GL Entry No." := rLGLEntry."Entry No.";
-                            rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
+                            if rLGLSetup."LCY Code" = '' then
+                                rLTagetikGLEntry."ATT LCY Code" := 'EUR'
+                            else
+                                rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
                             rLTagetikGLEntry."ATT Cost Center Name" := vLCostCenterName;
                             rLTagetikGLEntry."ATT IC Name" := vLICName;
 
@@ -240,7 +251,10 @@ table 60050 "ATT Tagetik G/L Entry"
                             rLTagetikGLEntry."ATT IC Name" := vLICName;
 
                             rLTagetikGLEntry."ATT Amount" := rLGLEntry.Amount;
-                            rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
+                            if rLGLSetup."LCY Code" = '' then
+                                rLTagetikGLEntry."ATT LCY Code" := 'EUR'
+                            else
+                                rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
                             rLTagetikGLEntry."ATT Last GL Entry No." := rLGLEntry."Entry No.";
                             rLTagetikGLEntry."ATT Account Type" := 'N';
 
@@ -254,8 +268,109 @@ table 60050 "ATT Tagetik G/L Entry"
 
                             rLTagetikGLEntry.Insert(true);
                         end;
+                        //+JGA Tagetik - Reclasificación movimientos CECO e IC   
+                        //Vamos guardando el último nº mov, por si hay que resiflicar movimientos antiguos 
+                        vLLastEntryNo := rLGLEntry."Entry No.";
+                    //-JGA
 
                     until rLGLEntry.Next() = 0;
+                //+JGA Tagetik - Reclasificación movimientos CECO e IC
+                //Buscamos los mov. contabilidad marcados para reclasificar, y realizamos los ajustes pertinentes
+                //En el proceso de reclasificación solo se marcan los mov. contabilidad que no están en Tagetik, y que
+                //tienen cambiada la dimensión CECO o la dimensión IC
+                RecRef.open(Database::"G/L Entry", false);
+                RecRef.ChangeCompany(rLCompany.Name);
+                RecRef.CurrentKeyIndex(20); // 20 = clave "ATT Tagetik Reclass."
+                FldRef := RecRef.Field(60003); // 60003 = field "ATT Tagetik Reclass."
+                FldRef.SetRange(true); // Filtramos los marcados como reclasificados
+                while RecRef.findset do repeat
+                                            rLTagetikGLEntry.Reset();
+                                            rLTagetikGLEntry.SetCurrentKey("ATT Company", "ATT Posting Date", "ATT Cost Center Code", "ATT IC Code");
+                                            rLTagetikGLEntry.SetRange("ATT Company", rLCompany.Name);
+                                            FldRef := RecRef.Field(rLGLEntry.FieldNo("Posting Date"));
+                                            Evaluate(rLDateValue, Format(FldRef.Value));
+                                            rLTagetikGLEntry.SetRange("ATT Posting Date", rLDateValue);
+                                            FldRef := RecRef.Field(60004); // 60004 = field "ATT Reclass. CECO ORG"
+                                            rLTagetikGLEntry.SetRange("ATT Cost Center Code", format(FldRef.Value()));
+                                            FldRef := RecRef.Field(60005); // 60004 = field "ATT Reclass. IC ORG"
+                                            rLTagetikGLEntry.SetRange("ATT IC Code", format(FldRef.Value()));
+                                            FldRef := RecRef.Field(rLGLEntry.FieldNo("G/L Account No."));
+                                            rLTagetikGLEntry.SetRange("ATT G/L Account No.", format(FldRef.Value()));
+                                            IF rLTagetikGLEntry.FindLast() then begin
+                                                //Descontamos el importe con el la combinación anterior
+                                                FldRef := RecRef.Field(rLGLEntry.FieldNo(Amount));
+                                                Evaluate(rLDecimalValue, format(FldRef.Value));
+                                                rLTagetikGLEntry."ATT Amount" -= rLDecimalValue;
+                                                rLTagetikGLEntry.Modify();
+                                                //Añadimos el importe en la nueva combinación, si no existe la creamos                            
+                                                FldRef := RecRef.Field(rLGLEntry.FieldNo("Dimension Set ID"));
+                                                rLDimensionSetEntry.Reset();
+                                                rLDimensionSetEntry.ChangeCompany(rLCompany.Name);
+                                                Clear(vLICCode);
+                                                Clear(vLICName);
+                                                if rLDimensionSetEntry.Get(format(FldRef.Value()), 'IC') then begin
+                                                    vLICCode := rLDimensionSetEntry."Dimension Value Code";
+                                                    rLDimensionValue.ChangeCompany(rLCompany.Name);
+                                                    if rLDimensionValue.Get(rLDimensionSetEntry."Dimension Code", vLICCode) then vLICName := rLDimensionValue.Name;
+                                                end;
+                                                Clear(vLCostCenterCode);
+                                                Clear(vLCostCenterName);
+                                                if rLDimensionSetEntry.Get(format(FldRef.Value()), 'CENTRO COSTE') then begin
+                                                    vLCostCenterCode := rLDimensionSetEntry."Dimension Value Code";
+                                                    rLDimensionValue.ChangeCompany(rLCompany.Name);
+                                                    if rLDimensionValue.Get(rLDimensionSetEntry."Dimension Code", vLCostCenterCode) then vLCostCenterName := rLDimensionValue.Name;
+                                                end;
+                                                rLTagetikGLEntry.SetRange("ATT Cost Center Code", vLCostCenterCode);
+                                                rLTagetikGLEntry.SetRange("ATT IC Code", vLICCode);
+                                                if rLTagetikGLEntry.FindLast() then begin
+                                                    rLTagetikGLEntry."ATT Amount" += rLDecimalValue;
+                                                    rLTagetikGLEntry.Modify();
+                                                end
+                                                else begin
+                                                    Clear(rLTagetikGLEntry);
+                                                    rLTagetikGLEntry."ATT Company" := rLCompany.Name;
+                                                    FldRef := RecRef.Field(rLGLEntry.FieldNo("G/L Account No."));
+                                                    Evaluate(rLTagetikGLEntry."ATT G/L Account No.", format(FldRef.Value));
+                                                    rLGLAccount.ChangeCompany(rLCompany.Name);
+                                                    rLGLAccount.Get(rLTagetikGLEntry."ATT G/L Account No.");
+                                                    vLGLAccountName := rLGLAccount.Name;
+                                                    rLTagetikGLEntry."ATT G/L Account Name" := vLGLAccountName;
+                                                    FldRef := RecRef.Field(rLGLEntry.FieldNo("Posting Date"));
+                                                    evaluate(rLTagetikGLEntry."ATT Posting Date", format(FldRef.Value()));
+                                                    rLTagetikGLEntry."ATT Cost Center Code" := vLCostCenterCode;
+                                                    rLTagetikGLEntry."ATT Cost Center Name" := vLCostCenterName;
+                                                    rLTagetikGLEntry."ATT IC Code" := vLICCode;
+                                                    rLTagetikGLEntry."ATT IC Name" := vLICName;
+                                                    rLTagetikGLEntry."ATT Amount" := rLDecimalValue;
+                                                    if rLGLSetup."LCY Code" = '' then
+                                                        rLTagetikGLEntry."ATT LCY Code" := 'EUR'
+                                                    else
+                                                        rLTagetikGLEntry."ATT LCY Code" := rLGLSetup."LCY Code";
+                                                    //NOTA: DEJAMOS EL ÚLTIMO Nº MOV. CONTABILIDADO, NO EL QUE ESTAMOS RECORRIENDO QUE ES ANTERIOR!!!!
+                                                    rLTagetikGLEntry."ATT Last GL Entry No." := vLLastEntryNo;
+                                                    rLTagetikGLEntry."ATT Account Type" := 'N';
+                                                    if rLGLAccount."Income/Balance" = rLGLAccount."Income/Balance"::"Income Statement" then begin
+                                                        rLTagetikGLEntry."ATT Account Nature" := 'E';
+                                                        rLTagetikGLEntry."ATT Account Conv. Type" := '6';
+                                                    end
+                                                    else begin
+                                                        rLTagetikGLEntry."ATT Account Nature" := 'P';
+                                                        rLTagetikGLEntry."ATT Account Conv. Type" := '1';
+                                                    end;
+                                                    rLTagetikGLEntry.Insert(true);
+                                                end;
+                                            end;
+                                            FldRef := RecRef.Field(60003); // 60003 = field "ATT Tagetik Reclass."
+                                            FldRef.Value := false;
+                                            FldRef := RecRef.Field(60004); // 60004 = field "ATT Reclass. CECO ORG"
+                                            FldRef.Value := '';
+                                            FldRef := RecRef.Field(60005); // 60004 = field "ATT Reclass. IC ORG"
+                                            FldRef.Value := '';
+                                            RecRef.Modify();
+                    until RecRef.Next() = 0;
+                RecRef.Close();
+                //-JGA        
+
                 Commit();
             until rLCompany.Next() = 0;
 
